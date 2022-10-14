@@ -1,6 +1,7 @@
-import { Container, Form } from './styles';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+
+import { Container, Form } from './styles';
 
 export function SignUp() {
   return (
