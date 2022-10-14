@@ -6,6 +6,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 400;
   color: ${({ theme }) => theme.COLORS.GRAY_200};
 
   > input {
@@ -15,7 +17,6 @@ export const Container = styled.div`
     border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
     border-radius: 0.5rem;
 
-    font-size: 1.6rem;
     color: ${({ theme }) => theme.COLORS.WHITE};
     background: transparent;
 

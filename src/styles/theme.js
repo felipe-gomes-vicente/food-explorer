@@ -1,16 +1,16 @@
 export default {
   COLORS: {
-    BACKGROUND_900: "#00070A", // bg-cards
-    BACKGROUND_800: "#000A0F", // bg-principal
-    BACKGROUND_700: "#00111A", // bg-header
-    BACKGROUND_600: "#001119", // second-bg signIn
-    BACKGROUND_400: "#0D1D25", // bg-input
+    BACKGROUND_900: "#00070A", 
+    BACKGROUND_800: "#000A0F", 
+    BACKGROUND_700: "#00111A", 
+    BACKGROUND_600: "#001119", 
+    BACKGROUND_400: "#0D1D25", 
 
-    WHITE: "#FFFFFF",
+    WHITE: "#FFF",
 
-    GRAY_500: "#7C7C8A", // placeholder
-    GRAY_200: "#C4C4CC", // color p
-    GRAY_100: "#E1E1E6", // subtitle
+    GRAY_500: "#7C7C8A", 
+    GRAY_200: "#C4C4CC", 
+    GRAY_100: "#E1E1E6", 
 
     RED: "#92000E",   
     LIGHT_GREEN: "#82F3FF",
