@@ -1,6 +1,7 @@
 import { Header } from "../../components/Header";
 import { Section } from "../../components/Section";
 import { Card } from "../../components/Card";
+import { Footer } from "../../components/Footer";
 
 import coverPhoto from "../../assets/cover-photo.png";
 import plate1 from "../../assets/plate-1.png";
@@ -155,6 +156,7 @@ export function Home() {
           />
         </Section>
       </Content>
+      <Footer />
     </Container>
   );
 }

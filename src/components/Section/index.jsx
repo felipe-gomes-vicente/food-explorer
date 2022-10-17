@@ -27,7 +27,7 @@ export function Section({title, children}) {
           className='btn-left'
           onClick={handleLeftClick}
         >
-          <FiChevronLeft size={50}/>
+          <FiChevronLeft size={50} />
         </button>
 
         <div ref={slider}>
