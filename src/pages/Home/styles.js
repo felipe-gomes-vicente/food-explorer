@@ -1,14 +1,12 @@
-
-
 import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   margin-inline: auto;
 `
+
 export const Content = styled.div`
   max-width: 136.8rem;
-  flex: 1;
   
   @media (min-width: 768px) {
     padding-inline: 12.3rem;
@@ -24,6 +22,7 @@ export const Slogan = styled.div`
   > img {
     width: 100%;
   }
+  
   > div {
     margin-top: 2rem;
      h1 {
@@ -37,6 +36,7 @@ export const Slogan = styled.div`
       font-weight: 400;
      }
   }
+
   @media (min-width: 1224px) {
     height: 26rem;
     margin-top: 16.4rem;
