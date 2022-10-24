@@ -15,7 +15,7 @@ export function Card({data, ...rest}) {
   }
 
   function handleAddQuantity() {
-    const isGreater10 = quantity >= 10;
+    const isGreater10 = quantity >= 9;
     if(isGreater10) {
       return
     }
