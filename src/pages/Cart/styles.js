@@ -76,7 +76,9 @@ export const Payment = styled.div`
       align-items: center;
       justify-content: center;
       > img {
+        max-width: 100%;
         margin-inline: auto;
+        padding-bottom: 2rem
       }
     }
   }
@@ -95,5 +97,23 @@ export const SectionCredit = styled.section`
     input {
       width: 100%;
     }
+  }
+`
+
+export const Accept = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  padding-block: 2.2rem;
+  
+  > svg {
+    font-size: 10.4rem;
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
+  }
+  > p {
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
+    font-size: 2.4rem;
   }
 `
