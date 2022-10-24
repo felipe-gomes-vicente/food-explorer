@@ -12,7 +12,7 @@ export function Header() {
   return (
     <Container>
       <Content>
-        <Logo>
+        <Logo to="/">
           <img src={logo} alt="polígono azul" />
           <strong>food explorer</strong>
         </Logo>
@@ -28,7 +28,7 @@ export function Header() {
           />
           </Search>
 
-          <Button href="#">
+          <Button to="/cart">
           <img src={receipt} alt="receipt" />
           Meu pedido <span>(0)</span>
           </Button>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 export const Container = styled.header`
   width: 100%;
@@ -71,11 +72,12 @@ export const Nav = styled.div`
   }
 `
 
-export const Logo = styled.div`
+export const Logo = styled(Link)`
   display: flex;
   align-items: center;
   gap: 1.1rem;
   font-size: 2.4rem;
+  color: ${({ theme }) => theme.COLORS.WHITE};
 `
 
 export const Favorites = styled.a`
@@ -112,7 +114,7 @@ export const Search = styled.div`
   }
 `
 
-export const Button = styled.a`
+export const Button = styled(Link)`
   width: 100%;
   height: 5.6rem;
   border-radius: 0.5rem;
