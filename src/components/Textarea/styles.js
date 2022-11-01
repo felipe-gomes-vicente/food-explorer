@@ -13,6 +13,7 @@ export const TextareaInput= styled.textarea`
   height: 17.2rem;
   resize: none;
   font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   font-size: 1.6rem;
   color: ${({ theme }) => theme.COLORS.WHITE};
   padding: 1.4rem;
