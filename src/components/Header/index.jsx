@@ -7,7 +7,7 @@ import { useAuth } from '../../hooks/auth';
 
 import { Container, Content, Logo, Nav, Favorites, NewDish, Search, Button, Logout } from './styles';
 
-export function Header({search}) {
+export function Header({search, functionButton}) {
   const [menuIsVisible, setMenuIsVisible] = useState(false)
 
   const { user, signOut } = useAuth();
@@ -25,7 +25,7 @@ export function Header({search}) {
             user.isAdmin ? 
             <NewDish to="/new">+ Adicionar novo prato</NewDish>
             :
-            <Favorites href="#">Meus favoritos</Favorites>
+            <Favorites type='button' onClick={functionButton}>Meus favoritos</Favorites>
           }
 
           <Search>
