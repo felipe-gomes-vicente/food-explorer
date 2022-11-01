@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { FiSearch, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
-import { useAuth } from '../../hooks/auth';
-
 import logo from '../../assets/logo.svg';
 import receipt from '../../assets/receipt.svg';
+import { useAuth } from '../../hooks/auth';
 
 import { Container, Content, Logo, Nav, Favorites, NewDish, Search, Button, Logout } from './styles';
 
-export function Header() {
+export function Header({search}) {
   const [menuIsVisible, setMenuIsVisible] = useState(false)
 
   const { user, signOut } = useAuth();
@@ -34,6 +33,7 @@ export function Header() {
           <input 
             type="text"
             placeholder="Busque pelas opções de pratos"  
+            onChange={e => {search(e.target.value)}}
           />
           </Search>
 

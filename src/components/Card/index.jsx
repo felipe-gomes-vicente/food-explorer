@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import { FaAngleRight, FaRegHeart, FaHeart, FaTrashAlt} from 'react-icons/fa'
 
 import { Button } from '../Button';
 import { useAuth } from '../../hooks/auth';
+import { api } from '../../services/api';
 
 import { Container } from './styles';
 
@@ -11,7 +13,10 @@ export function Card({data, ...rest}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
+  const imageURL = `${api.defaults.baseURL}/files/${data.image}`;
+
   const { user } = useAuth();
+  const navigate = useNavigate()
 
   function handleIsFavorite() {
     setIsFavorite(!isFavorite);
@@ -33,6 +38,14 @@ export function Card({data, ...rest}) {
     }
     setQuantity(quantity - 1);
   }
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
+
+  function handleEditDish(id) {
+    navigate(`/edit/${id}`);
+  }
    
   return (
     <Container isFavorite={isFavorite} {...rest}>
@@ -50,9 +63,9 @@ export function Card({data, ...rest}) {
       }
       
       <div>
-        <img src={data.image} alt="" />
+        <img src={imageURL} alt={data.title} />
       </div>
-      <a href="#">
+      <a type='button' onClick={user.isAdmin ? () => handleEditDish(data.id) : () => handleDetails(data.id)}>
         <h3>{data.title} <FaAngleRight /></h3>
       </a>
       <p>{data.description}</p>
