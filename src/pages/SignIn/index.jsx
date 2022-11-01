@@ -37,7 +37,7 @@ export function SignIn() {
           label="password"
           title="Senha"
           placeholder="No mínimo 6 caracteres"
-          minlength="6"
+          minLength="6"
           required
         />
 
