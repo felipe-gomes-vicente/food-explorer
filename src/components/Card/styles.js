@@ -29,13 +29,16 @@ export const Container = styled.div`
       width: 100%;
     }
   }
-  > h3 {
+  > a {
+    h3 {
     margin-top: 1.6rem;
     margin-bottom: 1.8rem;
     font-size: 2.4rem;
     font-weight: 700;
+    color: ${({ theme }) => theme.COLORS.WHITE};
     display: flex;
     align-items: center;
+    }
   }
   > p {
     font-size: 1.4rem;

@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { FiMinus, FiPlus } from 'react-icons/fi';
-import { FaAngleRight, FaRegHeart, FaHeart} from 'react-icons/fa'
+import { FaAngleRight, FaRegHeart, FaHeart, FaTrashAlt} from 'react-icons/fa'
 
 import { Button } from '../Button';
+import { useAuth } from '../../hooks/auth';
 
 import { Container } from './styles';
 
 export function Card({data, ...rest}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [quantity, setQuantity] = useState(1);
+
+  const { user } = useAuth();
 
   function handleIsFavorite() {
     setIsFavorite(!isFavorite);
@@ -30,19 +33,28 @@ export function Card({data, ...rest}) {
     }
     setQuantity(quantity - 1);
   }
-
+   
   return (
     <Container isFavorite={isFavorite} {...rest}>
-      <button
-        onClick={handleIsFavorite}
-      > 
-        {isFavorite ? <FaHeart size={30}/> : <FaRegHeart size={30}/>} 
-      </button>
-
+      {
+        user.isAdmin ? 
+        <button>
+          <FaTrashAlt size={25}/>
+        </button>
+        :
+        <button
+          onClick={handleIsFavorite}
+        > 
+          {isFavorite ? <FaHeart size={30}/> : <FaRegHeart size={30}/>} 
+        </button>
+      }
+      
       <div>
         <img src={data.image} alt="" />
       </div>
-      <h3>{data.title} <FaAngleRight /></h3>
+      <a href="#">
+        <h3>{data.title} <FaAngleRight /></h3>
+      </a>
       <p>{data.description}</p>
       <strong>R$ {data.price}</strong>
       <div>
@@ -50,16 +62,16 @@ export function Card({data, ...rest}) {
           onClick={handleRemoveQuantity} 
           className="btn"><FiMinus size={25}/>
         </button>
-
+        
         <span>0{quantity}</span>
-
+        
         <button
           onClick={handleAddQuantity}
           className="btn"><FiPlus size={25}/>
         </button>
         <Button title="incluir"/>
       </div>
-
+      
     </Container>
    )
 }

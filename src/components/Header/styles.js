@@ -83,6 +83,16 @@ export const Logo = styled(Link)`
 export const Favorites = styled.a`
   color: ${({ theme }) => theme.COLORS.GRAY_100};
 `
+export const NewDish = styled(Link)`
+  background-color: ${({ theme }) => theme.COLORS.RED};
+  color: ${({ theme }) => theme.COLORS.GRAY_100};
+  padding-inline: 1.2rem;
+  border-radius: 0.5rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 export const Search = styled.div`
   display: flex;
@@ -130,7 +140,7 @@ export const Button = styled(Link)`
   }
 `
 
-export const Logout = styled.a`
+export const Logout = styled(Link)`
   > svg {
     font-size: 2.2rem;
     color: ${({ theme }) => theme.COLORS.WHITE};
