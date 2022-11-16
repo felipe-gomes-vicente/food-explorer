@@ -1,26 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Header } from '../../components/Header';
-import { Section } from '../../components/Section';
-import { Card } from '../../components/Card';
-import { Footer } from '../../components/Footer';
+import { Header } from "../../components/Header";
+import { Section } from "../../components/Section";
+import { Card } from "../../components/Card";
+import { Footer } from "../../components/Footer";
 
-import coverPhoto from '../../assets/cover-photo.png';
-import { api } from '../../services/api';
-import { useFavorite } from '../../hooks/favorite';
+import coverPhoto from "../../assets/cover-photo.png";
+import { api } from "../../services/api";
+import { useFavorite } from "../../hooks/favorite";
 
-import { Container, Content, Slogan } from './styles';
+import { Container, Content, Slogan } from "./styles";
 
 export function Home() {
-  const [dishes, setDishes] = useState([])
-  const [search, setSearch] = useState("")
+  const [dishes, setDishes] = useState([]);
+  const [search, setSearch] = useState("");
 
   const { favorites } = useFavorite();
-  
-  const favoritesStorage = JSON.parse(localStorage.getItem("@foodexplorer:favorites"));
-  
+
   function handleFavorites() {
-    setDishes(favoritesStorage ? favoritesStorage : favorites);
+    setDishes(favorites);
   }
 
   useEffect(() => {
@@ -30,64 +28,51 @@ export function Home() {
     }
 
     fetchDishes();
-  }, [search, favoritesStorage ? favoritesStorage.length === 0 : false])
+  }, [search, favorites.length === 0]);
 
   return (
-      <Container>
-        <Header search={setSearch} functionButton={handleFavorites}/>
-        <Content>
-          <Slogan>
-            <img src={coverPhoto} alt="cover photo" />
-            <div>
-              <h1>Sabores inigualáveis</h1>
-              <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
-            </div>
-          </Slogan>
-          {
-            dishes.filter(dish => dish.category == "pratos principais").length > 0 &&
-            <Section title="Pratos principais">
-              {
-                dishes.filter(dish => dish.category == "pratos principais").map(dish => (
-                  <Card
-                    key={String(dish.id)}
-                    data={dish} 
-                  />
-                ))
-              }
-            </Section>
-          }
+    <Container>
+      <Header search={setSearch} functionButton={handleFavorites} />
+      <Content>
+        <Slogan>
+          <img src={coverPhoto} alt="cover photo" />
+          <div>
+            <h1>Sabores inigualáveis</h1>
+            <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
+          </div>
+        </Slogan>
+        {dishes.filter((dish) => dish.category == "pratos principais").length >
+          0 && (
+          <Section title="Pratos principais">
+            {dishes
+              .filter((dish) => dish.category == "pratos principais")
+              .map((dish) => (
+                <Card key={String(dish.id)} data={dish} />
+              ))}
+          </Section>
+        )}
 
-          {
-            dishes.filter(dish => dish.category == "sobremesas").length > 0 &&  
-            <Section title="Sobremesas">
-              {
-                dishes.filter(dish => dish.category == "sobremesas").map(dish => (
-                  <Card
-                    key={String(dish.id)}
-                    data={dish} 
-                  />
-                ))
-              }
-            </Section>
-          }  
+        {dishes.filter((dish) => dish.category == "sobremesas").length > 0 && (
+          <Section title="Sobremesas">
+            {dishes
+              .filter((dish) => dish.category == "sobremesas")
+              .map((dish) => (
+                <Card key={String(dish.id)} data={dish} />
+              ))}
+          </Section>
+        )}
 
-          { 
-            dishes.filter(dish => dish.category == "bebidas").length > 0 &&
-            <Section title="Bebidas">
-              { 
-                dishes.filter(dish => dish.category == "bebidas").map(dish => (
-                  <Card
-                    key={String(dish.id)}
-                    data={dish} 
-                  />
-                ))
-              }
-            </Section>
-          }
-          
-        </Content>
-        <Footer />
-
-      </Container>
-  )
+        {dishes.filter((dish) => dish.category == "bebidas").length > 0 && (
+          <Section title="Bebidas">
+            {dishes
+              .filter((dish) => dish.category == "bebidas")
+              .map((dish) => (
+                <Card key={String(dish.id)} data={dish} />
+              ))}
+          </Section>
+        )}
+      </Content>
+      <Footer />
+    </Container>
+  );
 }

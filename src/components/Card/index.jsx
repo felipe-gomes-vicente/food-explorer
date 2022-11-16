@@ -1,56 +1,37 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FiMinus, FiPlus } from 'react-icons/fi';
-import { FaAngleRight, FaTrashAlt} from 'react-icons/fa'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiMinus, FiPlus } from "react-icons/fi";
+import { FaAngleRight, FaTrashAlt } from "react-icons/fa";
 
-import { Button } from '../Button';
+import { Button } from "../Button";
 
-import heart from '../../assets/heart.svg';
-import heartFill from '../../assets/heart-fill.svg';
-import { useAuth } from '../../hooks/auth';
-import { useFavorite } from '../../hooks/favorite';
-import { api } from '../../services/api';
-import { useCart } from '../../hooks/cart';
+import heart from "../../assets/heart.svg";
+import heartFill from "../../assets/heart-fill.svg";
+import { useAuth } from "../../hooks/auth";
+import { useFavorite } from "../../hooks/favorite";
+import { api } from "../../services/api";
+import { useCart } from "../../hooks/cart";
 
-import { Container } from './styles';
+import { Container } from "./styles";
 
-export function Card({data, ...rest}) {
+export function Card({ data, ...rest }) {
   const [quantity, setQuantity] = useState(1);
-  const { favorites, setFavorites } = useFavorite()
-  
-  let favoritesStorage = JSON.parse(localStorage.getItem("@foodexplorer:favorites")) || [];
-  const isFavorite = favorites.some((dish) => dish.title === data.title) || favoritesStorage.some((dish) => dish.title === data.title)
-  
+
   const { user } = useAuth();
+  const { favorites, addDishToFavorite, removeDishFromFavorite } =
+    useFavorite();
+  const { handleAddDishToCart } = useCart();
 
-  const { cart, handleAddDishToCart } = useCart();
-  console.log(cart)
+  const isFavorite = favorites.some((dish) => dish.title === data.title);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const imageURL = `${api.defaults.baseURL}/files/${data.image}`;
 
-  function saveToLocalStorage(item) {
-    localStorage.setItem("@foodexplorer:favorites", JSON.stringify(item));
-  }
-
-  const addDishToFavorite = () => {
-    setFavorites([...favorites, data])
-
-    favoritesStorage.push(data)
-    saveToLocalStorage(favoritesStorage)
-  }
-
-  const removeDishFromFavorite = () => {
-    setFavorites(favoritesStorage.filter((dish) => dish.id !== data.id))
-
-    saveToLocalStorage(favorites)
-  }
-
   function handleAddQuantity() {
     const isGreater10 = quantity >= 9;
-    if(isGreater10) {
-      return
+    if (isGreater10) {
+      return;
     }
 
     setQuantity(quantity + 1);
@@ -59,7 +40,7 @@ export function Card({data, ...rest}) {
   function handleRemoveQuantity() {
     const isLess0 = quantity <= 1;
     if (isLess0) {
-      return
+      return;
     }
     setQuantity(quantity - 1);
   }
@@ -76,58 +57,63 @@ export function Card({data, ...rest}) {
     const confirm = window.confirm("Deseja realmente remover esse prato?");
 
     if (confirm) {
-      console.log(data.id)
+      console.log(data.id);
       await api.delete(`/dishes/${data.id}`);
       location.reload();
     }
-  } 
+  }
 
   return (
     <Container {...rest}>
-      {
-        user.isAdmin ? 
+      {user.isAdmin ? (
+        <button onClick={handleRemoveDish}>
+          <FaTrashAlt size={25} />
+        </button>
+      ) : (
         <button
-          onClick={handleRemoveDish}
+          type="button"
+          onClick={() =>
+            isFavorite ? removeDishFromFavorite(data) : addDishToFavorite(data)
+          }
         >
-          <FaTrashAlt size={25}/>
+          <img src={isFavorite ? heartFill : heart} alt="heart" />
         </button>
-        :
-        <button
-          type='button'
-          onClick={() => isFavorite ? removeDishFromFavorite() : addDishToFavorite()}
-        > 
-          <img src={isFavorite ?  heartFill : heart} alt="heart" />  
-        </button>
-      }
-      
+      )}
+
       <div>
         <img src={imageURL} alt={data.title} />
       </div>
 
-      <a type='button' onClick={user.isAdmin ? () => handleEditDish(data.id) : () => handleDetails(data.id)}>
-        <h3>{data.title} <FaAngleRight /></h3>
+      <a
+        type="button"
+        onClick={
+          user.isAdmin
+            ? () => handleEditDish(data.id)
+            : () => handleDetails(data.id)
+        }
+      >
+        <h3>
+          {data.title} <FaAngleRight />
+        </h3>
       </a>
 
       <p>{data.description}</p>
       <strong>R$ {data.price}</strong>
       <div>
-        <button
-          onClick={handleRemoveQuantity} 
-          className="btn"><FiMinus size={25}/>
+        <button onClick={handleRemoveQuantity} className="btn">
+          <FiMinus size={25} />
         </button>
-        
+
         <span>0{quantity}</span>
-        
-        <button
-          onClick={handleAddQuantity}
-          className="btn"><FiPlus size={25}/>
+
+        <button onClick={handleAddQuantity} className="btn">
+          <FiPlus size={25} />
         </button>
         <Button
           title="incluir"
           onClick={() => handleAddDishToCart(data, quantity, imageURL)}
         />
       </div>
-      
     </Container>
-   )
+  );
 }
