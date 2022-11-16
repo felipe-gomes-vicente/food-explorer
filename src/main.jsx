@@ -6,16 +6,19 @@ import theme from './styles/theme';
 
 import { AuthProvider } from './hooks/auth';
 import { FavoriteProvider } from './hooks/favorite';
+import { CartProvider } from './hooks/cart';
 import { Routes } from './routes';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <AuthProvider>
-          <FavoriteProvider>
-            <Routes />
-          </FavoriteProvider>
+        <AuthProvider>
+        <CartProvider>
+        <FavoriteProvider>
+          <Routes />
+        </FavoriteProvider>
+        </CartProvider>
         </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>

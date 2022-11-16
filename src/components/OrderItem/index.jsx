@@ -1,6 +1,11 @@
+import { useCart } from '../../hooks/cart';
+
 import { Container, Content } from './styles';
 
 export function OrderItem({data}) {
+
+  const { handleRemoveDishFromCart } = useCart();
+  
   return (
     <Container>
       <div>
@@ -9,10 +14,13 @@ export function OrderItem({data}) {
       <Content>
         <div>
           <span>{data.quantity}X</span>
-          <span>{data.name}</span>
+          <span>{data.title}</span>
           <strong>R$ {data.price}</strong>
         </div>
-        <button>Excluir</button>
+        <button
+          type='button'
+          onClick={() => handleRemoveDishFromCart(data.id)}
+        >Excluir</button>
       </Content>
     </Container>
   )

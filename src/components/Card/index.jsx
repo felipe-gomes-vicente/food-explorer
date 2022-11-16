@@ -10,6 +10,7 @@ import heartFill from '../../assets/heart-fill.svg';
 import { useAuth } from '../../hooks/auth';
 import { useFavorite } from '../../hooks/favorite';
 import { api } from '../../services/api';
+import { useCart } from '../../hooks/cart';
 
 import { Container } from './styles';
 
@@ -21,10 +22,13 @@ export function Card({data, ...rest}) {
   const isFavorite = favorites.some((dish) => dish.title === data.title) || favoritesStorage.some((dish) => dish.title === data.title)
   
   const { user } = useAuth();
+
+  const { cart, handleAddDishToCart } = useCart();
+  console.log(cart)
+
   const navigate = useNavigate()
 
   const imageURL = `${api.defaults.baseURL}/files/${data.image}`;
-
 
   function saveToLocalStorage(item) {
     localStorage.setItem("@foodexplorer:favorites", JSON.stringify(item));
@@ -118,7 +122,10 @@ export function Card({data, ...rest}) {
           onClick={handleAddQuantity}
           className="btn"><FiPlus size={25}/>
         </button>
-        <Button title="incluir"/>
+        <Button
+          title="incluir"
+          onClick={() => handleAddDishToCart(data, quantity, imageURL)}
+        />
       </div>
       
     </Container>

@@ -4,6 +4,7 @@ import { FiSearch, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 import logo from '../../assets/logo.svg';
 import receipt from '../../assets/receipt.svg';
 import { useAuth } from '../../hooks/auth';
+import { useCart } from '../../hooks/cart';
 
 import { Container, Content, Logo, Nav, Favorites, NewDish, Search, Button, Logout } from './styles';
 
@@ -11,6 +12,7 @@ export function Header({search, functionButton}) {
   const [menuIsVisible, setMenuIsVisible] = useState(false)
 
   const { user, signOut } = useAuth();
+  const { cart } = useCart();
 
   return (
     <Container>
@@ -39,7 +41,7 @@ export function Header({search, functionButton}) {
 
           <Button to="/cart">
           <img src={receipt} alt="receipt" />
-          Meu pedido <span>(0)</span>
+          Meu pedido <span>({cart.length})</span>
           </Button>
 
           <Logout to="/" onClick={signOut}>
