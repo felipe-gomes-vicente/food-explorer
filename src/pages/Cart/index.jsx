@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { RiRestaurantLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import { Header } from "../../components/Header";
@@ -8,7 +10,6 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 
 import receipt from "../../assets/receipt.svg";
-import plate from "../../assets/plate-1.png";
 import imagePix from "../../assets/pix.svg";
 import imageCreditCad from "../../assets/credit-card.svg";
 import imageQrCode from "../../assets/qr-code.png";
@@ -121,8 +122,16 @@ export function Cart() {
               {isPix ? (
                 paymentAccept ? (
                   <Accept>
-                    <FaRegCheckCircle />
-                    <p>Pagamento aprovado! </p>
+                    {cartUser && cartUser.status == "entregue" ? (
+                      <RiRestaurantLine />
+                    ) : (
+                      <FaRegCheckCircle />
+                    )}
+                    {cartUser && cartUser.status == "entregue" ? (
+                      ""
+                    ) : (
+                      <p>Pagamento aprovado! </p>
+                    )}
                     {cartUser && <span>{status(cartUser)}</span>}
                     {cartUser && cartUser.status == "entregue" ? (
                       <button
@@ -139,8 +148,16 @@ export function Cart() {
                 )
               ) : paymentAccept ? (
                 <Accept>
-                  <FaRegCheckCircle />
-                  <p>Pagamento aprovado! </p>
+                  {cartUser && cartUser.status == "entregue" ? (
+                    <RiRestaurantLine />
+                  ) : (
+                    <FaRegCheckCircle />
+                  )}
+                  {cartUser && cartUser.status == "entregue" ? (
+                    ""
+                  ) : (
+                    <p>Pagamento aprovado! </p>
+                  )}
                   {cartUser && <span>{status(cartUser)}</span>}
                   {cartUser && cartUser.status == "entregue" ? (
                     <button>Pedido recebido</button>
