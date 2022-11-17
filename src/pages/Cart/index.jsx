@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
@@ -12,14 +13,46 @@ import imagePix from "../../assets/pix.svg";
 import imageCreditCad from "../../assets/credit-card.svg";
 import imageQrCode from "../../assets/qr-code.png";
 import { useCart } from "../../hooks/cart";
+import { api } from "../../services/api";
+import { useAuth } from "../../hooks/auth";
 
 import { Container, Content, Payment, SectionCredit, Accept } from "./styles";
 
 export function Cart() {
   const [isPix, setIsPix] = useState(true);
-  const [paymentAccept, setPaymentAccept] = useState(false);
+  const [cartUser, setCartUser] = useState();
+  const { cart, total, paymentAccept, setPaymentAccept, handleResetCart } =
+    useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const { cart, total } = useCart();
+  function status(cartUser) {
+    let status;
+
+    if (cartUser.status == "pendente") {
+      status = "Seu pedido está pendente";
+    } else if (cartUser.status == "preparando") {
+      status = "Seu pedido está em processo de preparo";
+    } else if (cartUser.status == "entregue") {
+      status = "Seu pedido foi entregue";
+    } else {
+      return;
+    }
+
+    return status;
+  }
+
+  function handleCreatedCart(cart) {
+    return {
+      status: "pendente",
+      paymentMethod: isPix ? "pix" : "creditCard",
+      orders: cart.map((item) => ({
+        id: item.id,
+        title: item.title,
+        quantity: item.quantity,
+      })),
+    };
+  }
 
   function handlePaymentPix() {
     setIsPix(true);
@@ -29,9 +62,21 @@ export function Cart() {
     setIsPix(false);
   }
 
-  function handleFinishPayment() {
+  async function handleFinishPayment(cart) {
     setPaymentAccept(true);
+
+    const newCart = handleCreatedCart(cart);
+    await api.post("/carts", newCart);
   }
+
+  useEffect(() => {
+    async function fetchCart() {
+      const response = await api.get(`/carts/${user.id}`);
+      setCartUser(response.data);
+    }
+
+    fetchCart();
+  }, []);
 
   return (
     <Container>
@@ -78,6 +123,16 @@ export function Cart() {
                   <Accept>
                     <FaRegCheckCircle />
                     <p>Pagamento aprovado! </p>
+                    {cartUser && <span>{status(cartUser)}</span>}
+                    {cartUser && cartUser.status == "entregue" ? (
+                      <button
+                        onClick={() => handleResetCart(user.id, navigate)}
+                      >
+                        Pedido recebido
+                      </button>
+                    ) : (
+                      <span></span>
+                    )}
                   </Accept>
                 ) : (
                   <img src={imageQrCode} alt="qr code" />
@@ -86,6 +141,12 @@ export function Cart() {
                 <Accept>
                   <FaRegCheckCircle />
                   <p>Pagamento aprovado! </p>
+                  {cartUser && <span>{status(cartUser)}</span>}
+                  {cartUser && cartUser.status == "entregue" ? (
+                    <button>Pedido recebido</button>
+                  ) : (
+                    <span></span>
+                  )}
                 </Accept>
               ) : (
                 <SectionCredit>
@@ -114,7 +175,7 @@ export function Cart() {
               <Button
                 image={receipt}
                 title="Finalizar pagamento"
-                onClick={handleFinishPayment}
+                onClick={() => handleFinishPayment(cart)}
                 isInvisible={paymentAccept}
               />
             </div>

@@ -23,13 +23,17 @@ export function Header({ search, functionButton }) {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   const { user, signOut } = useAuth();
-  const { cart } = useCart();
+  const { cart, orders } = useCart();
   const navigate = useNavigate();
 
   const isCartIsEmpty = cart.length === 0;
 
   function handleGoToCart() {
     navigate("/cart");
+  }
+
+  function handleGoToOrders() {
+    navigate("/orders");
   }
 
   return (
@@ -60,14 +64,21 @@ export function Header({ search, functionButton }) {
             />
           </Search>
 
-          <Button
-            type="button"
-            onClick={handleGoToCart}
-            disabled={isCartIsEmpty}
-          >
-            <img src={receipt} alt="receipt" />
-            Meu pedido <span>({cart.length})</span>
-          </Button>
+          {user.isAdmin ? (
+            <Button type="button" onClick={handleGoToOrders}>
+              <img src={receipt} alt="receipt" />
+              pedidos<span>({orders.length})</span>
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              onClick={handleGoToCart}
+              disabled={isCartIsEmpty}
+            >
+              <img src={receipt} alt="receipt" />
+              Meu pedido <span>({cart.length})</span>
+            </Button>
+          )}
 
           <Logout to="/" onClick={signOut}>
             <FiLogOut />

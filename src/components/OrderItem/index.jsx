@@ -1,11 +1,10 @@
-import { useCart } from '../../hooks/cart';
+import { useCart } from "../../hooks/cart";
 
-import { Container, Content } from './styles';
+import { Container, Content } from "./styles";
 
-export function OrderItem({data}) {
+export function OrderItem({ data }) {
+  const { handleRemoveDishFromCart, paymentAccept } = useCart();
 
-  const { handleRemoveDishFromCart } = useCart();
-  
   return (
     <Container>
       <div>
@@ -18,10 +17,13 @@ export function OrderItem({data}) {
           <strong>R$ {data.price}</strong>
         </div>
         <button
-          type='button'
+          type="button"
           onClick={() => handleRemoveDishFromCart(data.id)}
-        >Excluir</button>
+          disabled={paymentAccept}
+        >
+          Excluir
+        </button>
       </Content>
     </Container>
-  )
+  );
 }

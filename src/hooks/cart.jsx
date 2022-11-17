@@ -1,11 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
+import { api } from "../services/api";
+
 export const CartContext = createContext({});
 
 function CartProvider({ children }) {
+  const user = JSON.parse(localStorage.getItem("@foodexplorer:user"));
+
   const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("@foodexplorer:cart")) || []
+    JSON.parse(localStorage.getItem(`@foodexplorer:cart-${user.id}`)) || []
   );
+  const [paymentAccept, setPaymentAccept] = useState(
+    JSON.parse(localStorage.getItem(`paymentAccept:${user.id}`)) || false
+  );
+  const [orders, setOrders] = useState([]);
+  console.log(user);
 
   function handleAddDishToCart(data, quantity, image) {
     try {
@@ -39,9 +48,27 @@ function CartProvider({ children }) {
     return value + item.price;
   }, 0);
 
+  async function handleResetCart(id, navigate) {
+    localStorage.removeItem(`@foodexplorer:cart-${user.id}`);
+    localStorage.removeItem(`paymentAccept:${user.id}`);
+
+    setCart([]);
+    setPaymentAccept(false);
+
+    await api.delete(`/carts/${id}`);
+    navigate("/");
+  }
+
   useEffect(() => {
-    localStorage.setItem("@foodexplorer:cart", JSON.stringify(cart));
+    localStorage.setItem(`@foodexplorer:cart-${user.id}`, JSON.stringify(cart));
   }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `paymentAccept:${user.id}`,
+      JSON.stringify(paymentAccept)
+    );
+  }, [paymentAccept]);
 
   return (
     <CartContext.Provider
@@ -50,6 +77,11 @@ function CartProvider({ children }) {
         handleAddDishToCart,
         handleRemoveDishFromCart,
         total: String(total).replace(".", ","),
+        paymentAccept,
+        setPaymentAccept,
+        orders,
+        setOrders,
+        handleResetCart,
       }}
     >
       {children}
