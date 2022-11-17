@@ -14,7 +14,6 @@ function CartProvider({ children }) {
     JSON.parse(localStorage.getItem(`paymentAccept:${user.id}`)) || false
   );
   const [orders, setOrders] = useState([]);
-  console.log(user);
 
   function handleAddDishToCart(data, quantity, image) {
     try {

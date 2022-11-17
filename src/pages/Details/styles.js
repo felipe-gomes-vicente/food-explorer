@@ -16,8 +16,10 @@ export const ButtonBack = styled.div`
     display: flex;
     align-items: center;
     font-size: clamp(1.8rem, .4rem + 3vw, 2.4rem);
+
     color: ${({ theme }) => theme.COLORS.WHITE};
   }
+
   @media (min-width: 768px) {
     padding-inline: 0;
   }
@@ -28,11 +30,14 @@ export const Content = styled.div`
   height: 100%;
   padding-inline: 4rem;
   margin-inline: auto;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   flex: 1;
+
   @media (min-width: 768px) {
     flex-direction: column;
     width: 100%;
@@ -48,48 +53,75 @@ export const Main = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   div:nth-child(1) {
-    max-width: 39rem;
+    max-width: 30rem;
     border-radius: 50%;
+
     img {
       max-width: 100%;
     }
   }
+
   > div:nth-child(2) {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
       font-family: 'Poppins', sans-serif;
+
     h1 {
       margin-top: 2rem;
       margin-bottom: 1.8rem;
       font-size: 4rem;
       font-weight: 700;
     }
+
     p {
       text-align: center;
       font-size: 2.4rem;
       color: ${({ theme }) => theme.COLORS.GRAY_200};
     }
+
     div:nth-child(5) {
-      width: 10rem;
+      width: 5rem;
+      
+      img {
+        display: none;
+      }
     }
   }
+
   @media (min-width: 768px) {
     width: 100%;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: 4rem;
+
+    > div:nth-child(1) {
+      max-width: 39rem;
+      border-radius: 50%;
+    }
+
     > div:nth-child(2) {
       max-width: 60rem;
       align-items: flex-start;
+
       h1 {
         margin-top: 0;
       }
+
       p {
         text-align: left;
+      }
+
+      div:nth-child(5) {
+        width: 10rem;
+        img {
+          display: block;
+        }
       }
     }
   }
@@ -109,11 +141,13 @@ export const Info = styled.div`
   align-items: center;
   gap: 1.7rem;
   width: 100%;
+
   strong {
     font-size: clamp(2rem, 1rem + 3vw, 3.2rem);
     color: ${({ theme }) => theme.COLORS.LIGHT_GREEN};
     min-width: 10rem;
   }
+
   span {
     font-size: 2rem;
     font-weight: 700;
@@ -123,11 +157,15 @@ export const Info = styled.div`
     background: none;
     border: none;
     color: ${({ theme }) => theme.COLORS.WHITE};
+
     display: flex;
     align-items: center;
+
     position: relative;
+
     z-index: 6;
   }
+
   @media (min-width: 768px) {
     padding-inline: 0;
      
