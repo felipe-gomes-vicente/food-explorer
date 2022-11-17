@@ -3,9 +3,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 export const FavoriteContext = createContext({});
 
 function FavoriteProvider({ children }) {
-  const user = JSON.parse(localStorage.getItem("@foodexplorer:user"));
   const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem(`@foodexplorer:favorites-${user.id}`)) || []
+    JSON.parse(localStorage.getItem(`@foodexplorer:favorites`)) || []
   );
 
   function addDishToFavorite(data) {
@@ -17,10 +16,7 @@ function FavoriteProvider({ children }) {
   }
 
   useEffect(() => {
-    localStorage.setItem(
-      `@foodexplorer:favorites-${user.id}`,
-      JSON.stringify(favorites)
-    );
+    localStorage.setItem(`@foodexplorer:favorites`, JSON.stringify(favorites));
   }, [favorites]);
 
   return (

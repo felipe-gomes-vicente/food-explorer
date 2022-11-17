@@ -22,6 +22,7 @@ import { Container, Content, Payment, SectionCredit, Accept } from "./styles";
 export function Cart() {
   const [isPix, setIsPix] = useState(true);
   const [cartUser, setCartUser] = useState();
+  const [loading, setLoading] = useState(false);
   const { cart, total, paymentAccept, setPaymentAccept, handleResetCart } =
     useCart();
   const { user } = useAuth();
@@ -65,9 +66,11 @@ export function Cart() {
 
   async function handleFinishPayment(cart) {
     setPaymentAccept(true);
+    setLoading(true);
 
     const newCart = handleCreatedCart(cart);
     await api.post("/carts", newCart);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -191,9 +194,10 @@ export function Cart() {
               )}
               <Button
                 image={receipt}
-                title="Finalizar pagamento"
+                title={loading ? "Realizando pagamento" : "Finalizar pagamento"}
                 onClick={() => handleFinishPayment(cart)}
                 isInvisible={paymentAccept}
+                disabled={loading}
               />
             </div>
           </div>
