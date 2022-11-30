@@ -86,7 +86,7 @@ opcionais
 Application developed using the following tools:
 
 - [React](https://reactjs.org)
-- [Rocket Movies Api](https://github.com/felipe-gomes-vicente/rocket-movies-api)
+- [Food Explorer Api](https://github.com/felipe-gomes-vicente/food-explorer-api)
 - [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [React-router-dom](https://reactrouter.com/web/guides/quick-start)
 - [Styled Components](https://styled-components.com/)
